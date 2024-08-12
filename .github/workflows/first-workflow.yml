@@ -1,7 +1,9 @@
-name: CI with Manual Approval
+name: CI/CD Pipeline with Manual Approval
 
 on:
-  workflow_dispatch:  # Allows the workflow to be triggered manually
+  push:
+    branches:
+      - main  # Trigger the workflow on push to the main branch
 
 jobs:
   build:
@@ -11,16 +13,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Run tests
+    - name: Run Tests
       run: echo "Running tests..."
 
-  manual_approval:
+  deploy:
     runs-on: ubuntu-latest
     needs: build
-    steps:
-    - name: Awaiting manual approval
-      run: echo "Please review the results and approve this step."
-      if: ${{ github.event.inputs.approve == 'yes' }}
+    environment: production  # Use the environment that requires manual approval
 
-    - name: Proceed after approval
-      run: echo "Approved. Proceeding to the next step..."
+    steps:
+    - name: Deploy to Production
+      run: echo "Deploying application to production..."
