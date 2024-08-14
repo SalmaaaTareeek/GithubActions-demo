@@ -11,7 +11,15 @@ jobs:
     environment:
       name: Hypercare
     steps:
-      - run: echo "Waiting For Approval"
+      # Set the environment variable
+      - name: Set SM_DM_APPROVED
+        run: echo "SM_DM_APPROVED" >> $GITHUB_ENV
+      
+      # This step runs only if SM_DM_APPROVED is 'false'
+      - name: Approval Step
+        if: env.SM_DM_APPROVED == 'false'
+        run: echo "Waiting For Approval" , echo "SM_DM_APPROVED=true" >> $GITHUB_ENV
+        # run: echo "SM_DM_APPROVED=true" >> $GITHUB_ENV
 
   second_approver:
     runs-on: ubuntu-latest
