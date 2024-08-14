@@ -13,8 +13,16 @@ jobs:
     steps:
       - run: echo "Waiting For Approval"
 
-  deploy:
+  second_approver:
     runs-on: ubuntu-latest
     needs: first_approver
+    environment:
+      name: Hypercare
+    steps:
+      - run: echo "Waiting for second Approval"
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: second_approver
     steps:
       - run: echo "Done Approving"
