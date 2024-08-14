@@ -5,45 +5,16 @@ on:
     branches:
       - main  # Trigger the workflow on push to the main branch
 
-jobs:
-  build:
+jobs: 
+  first_approver:
     runs-on: ubuntu-latest
+    environment:
+      name: Hypercare
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Run Tests
-      run: echo "Running tests..."
-
-  approve_stage_1:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Approval by QA
-      if: ${{ github.event.inputs.approval_stage_1 == 'yes' }}
-      run: echo "Approved by QA Team."
-      env:
-        APPROVED_STAGE_1: yes
-    - name: Awaiting QA Approval
-      run: echo "Waiting for QA Team approval..."
-      if: ${{ env.APPROVED_STAGE_1 != 'yes' }}
-    
-  approve_stage_2:
-    runs-on: ubuntu-latest
-    needs: approve_stage_1
-    steps:
-    - name: Approval by Technical Lead
-      if: ${{ github.event.inputs.approval_stage_2 == 'yes' }}
-      run: echo "Approved by Technical Lead."
-      env:
-        APPROVED_STAGE_2: yes
-    - name: Awaiting Technical Lead Approval
-      run: echo "Waiting for Technical Lead approval..."
-      if: ${{ env.APPROVED_STAGE_2 != 'yes' }}
+      - run: echo "Waiting For Approval"
 
   deploy:
     runs-on: ubuntu-latest
-    needs: approve_stage_2
+    needs: first_approver
     steps:
-    - name: Deploy to Production
-      run: echo "Deploying application to production..."
+      - run: echo "Done Approving"
