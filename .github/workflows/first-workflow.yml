@@ -13,7 +13,7 @@ jobs:
     steps:
       # Set the environment variable
       - name: Set SM_DM_APPROVED
-        run: echo "SM_DM_APPROVED" >> $GITHUB_ENV
+        run: echo "SM_DM_APPROVED" 
       
       # This step runs only if SM_DM_APPROVED is 'false'
       - name: Approval Step
