@@ -8,6 +8,8 @@ on:
 jobs:
   first_approver:
     runs-on: ubuntu-latest
+    environment:
+      name: Hypercare
     steps:
       - name: First Approval
         run: echo "First approval completed"
