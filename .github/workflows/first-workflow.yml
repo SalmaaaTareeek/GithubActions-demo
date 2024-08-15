@@ -30,11 +30,12 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/SalmaaaTareeek/GithubActions-demo/environments/Hypercare/variables/SM_DM_APPROVED \
             -d '{"name":"SM_DM_APPROVED","value":"false"}'
+          fi  # Close the if statement properly
 
   deploy:
     runs-on: ubuntu-latest
     needs: second_approver
+    if: ${{ env.SM_DM_APPROVED == 'true' }}
     steps:
       - name: Deployment Step
-        if: env.SM_DM_APPROVED == 'true'
         run: echo "Deployment completed successfully"
